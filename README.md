@@ -1,5 +1,4 @@
 # RAG QA System
-
 A simple Retrieval-Augmented Generation (RAG) system for document-based question answering.
 
 ## 🧠 What It Does
