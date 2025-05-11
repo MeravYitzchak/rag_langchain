@@ -1,6 +1,6 @@
 # 📐 RAG QA System – Architecture Overview
 
-This document provides an overview of the architecture for the Retrieval-Augmented Generation (RAG) system used to answer questions based on internal company documents.
+This document provides an overview of the architecture for the Retrieval-Augmented Generation (RAG) system used to answer questions based on internal company documents
 
 ---
 
