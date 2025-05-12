@@ -10,7 +10,7 @@ class DocumentLoader:
         self.docs_dir = docs_dir
 
     def load_documents(self):
-        """טוען את כל המסמכים בתיקייה"""
+        """Loads all documents in the folder"""
         all_documents = []
         for file in os.listdir(self.docs_dir):
             if file.endswith(".txt"):
@@ -26,7 +26,7 @@ class TextSplitter:
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
     def split_documents(self, documents):
-        """פיצול טקסטים למסמכים קטנים יותר"""
+        """Split texts into smaller documents"""
         return self.splitter.split_documents(documents)
 
 
@@ -35,7 +35,7 @@ class ChunksSaver:
         self.output_file = output_file
 
     def save_chunks(self, chunks):
-        """שומר את המקטעים בקובץ JSON"""
+        """Saves the segments in a JSON file"""
         with open(self.output_file, "w", encoding="utf-8") as f:
             json.dump([d.dict() for d in chunks], f, ensure_ascii=False, indent=2)
         print(f"Saved {len(chunks)} chunks to {self.output_file}")
@@ -52,7 +52,7 @@ class DocumentProcessor:
         self.saver = ChunksSaver(output_file)
 
     def process_documents(self):
-        """מעבד את כל המסמכים"""
+        """Processes all documents"""
         # Step 1: Load documents
         documents = self.loader.load_documents()
 

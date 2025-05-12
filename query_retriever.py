@@ -14,7 +14,7 @@ def main():
     embedding = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
     vectorstore = FAISS.load_local(INDEX_DIR, embedding, allow_dangerous_deserialization=True)
 
-    # QA Pipeline (מודל מבית HuggingFace)
+    # QA Pipeline (from HuggingFace)
     qa_pipe = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
     llm = HuggingFacePipeline(pipeline=qa_pipe)
 
@@ -26,13 +26,13 @@ def main():
         if query.lower() == "exit":
             break
 
-        # שלב של חיפוש באמצעות ה-retriever לקבלת מסמכים רלוונטיים
+        # A search phase using the retriever to obtain relevant documents
         docs = vectorstore.similarity_search(query, k=3)
 
-        # יצירת קונטקסט משילוב המסמכים שנמצאו
+        # Creating context from the combination of found documents
         combined_context = " ".join([doc.page_content for doc in docs])
 
-        # שליחת הקונטקסט לשלב ה-question answering
+        # Sending the context to the question answering stage
         result = qa_pipe(question=query, context=combined_context)
 
         print("\n question:", result["answer"])
