@@ -1,0 +1,58 @@
+[
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\MeetingSummary.txt"
+    },
+    "page_content": "Document: Engineering Sync – May 2, 2025\n\nAttendees: Adi, Alon, Ifat, Nir\n\nMain topics:\n- Version 1.3 planning: Decision made to add support for Apple Pay in the ordering system.\n- Critical bugs: Fixed crash issue in Android app when duplicate orders were made.\n- Tasks for next week:\n  - Adi: Investigate Apple Pay API integration\n  - Nir: Perform system tests on iOS\n  - Ifat: Write automated test coverage\n- Deployment update: Version 1.2 release postponed to May 6\n\nNext meeting: Sunday, May 9.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\NewEmployeeOnboardingGuide.txt"
+    },
+    "page_content": "Document: Onboarding Guide\n\nWelcome to the team! The initial onboarding process includes:\n\n1. Introduction day with HR and training on internal tools (Slack, Jira, Notion).\n2. One-on-one meeting with your team lead to align on goals and your 30-day plan.\n3. Completion of legal forms and mandatory security awareness training (due within the first week).\n4. Setup of internal systems: VPN, company email, GitHub access.\n\nFor any questions, please contact Noa from the HR team.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\RemoteWorkGuidelines.txt"
+    },
+    "page_content": "Document: Remote Work Guidelines\n\nAs of 2024, employees are allowed to work remotely up to two days per week, with manager approval.\n\nWhen working from home:\n- Employees must connect to the company VPN\n- Participation in all Zoom meetings is mandatory; availability on Slack is expected during work hours\n- Work hours must be logged in the Timely system\n\nFailure to comply may affect continued eligibility for remote work.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\Security.txt"
+    },
+    "page_content": "Document: IT Security Policy – McTech Israel\n\nTo protect the confidentiality, integrity, and availability of company data, all employees are required to follow the following IT security practices:\n\nUse strong, unique passwords for all company accounts and change them regularly.\n\nEnsure that all devices are encrypted and password-protected when accessing company data remotely.\n\nDo not share sensitive information via email or unsecured channels.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\Security.txt"
+    },
+    "page_content": "Report any suspicious emails, phishing attempts, or other security threats immediately to the IT department.\n\nAdhere to company guidelines when accessing and storing customer or employee personal data.\n\nFailure to comply with IT security policies may lead to disciplinary actions, including termination of employment.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\VacationPolicy.txt"
+    },
+    "page_content": "Document: Vacation Policy\n\nEvery full-time employee is entitled to 18 paid vacation days per year, accrued monthly.\n\nVacation can only be used after completing a 3-month probation period.\n\nUnused vacation days roll over to the next calendar year but expire after 18 months if not used.\n\nEmployees must submit vacation requests at least 7 business days in advance via the HR Online system. Approval is required from the direct manager.",
+    "type": "Document"
+  },
+  {
+    "id": null,
+    "metadata": {
+      "source": "./documents\\VacationPolicy.txt"
+    },
+    "page_content": "Extended vacations (over 10 consecutive days) require additional approval from the HR department.",
+    "type": "Document"
+  }
+]

@@ -1,70 +1,43 @@
-import os
-import faiss
-import pickle
-import numpy as np
-from sentence_transformers import SentenceTransformer
+from langchain_community.vectorstores import FAISS
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.chains import RetrievalQA
+from langchain.llms import HuggingFacePipeline
 from transformers import pipeline
+from langchain.schema import Document
 
-# הגדרת קבצים
-EMBEDDINGS_FILE = "embeddings.pkl"
-FAISS_INDEX_FILE = "faiss_index.bin"
-MODEL_NAME = "all-MiniLM-L6-v2"
+INDEX_DIR = "faiss_index"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
-# להכריח שימוש רק ב-PyTorch (למנוע שגיאות TensorFlow)
-os.environ["USE_TF"] = "0"
 
-# טעינת המערכת: FAISS + טקסטים + מודל אמבדינג
-def load_system():
-    print("🔄 Loading FAISS index and metadata...")
-    index = faiss.read_index(FAISS_INDEX_FILE)
-    with open(EMBEDDINGS_FILE, "rb") as f:
-        data = pickle.load(f)
-    texts = data["texts"]
-    metadata = data["metadata"]
-    model = SentenceTransformer(MODEL_NAME)
-    return index, texts, metadata, model
-
-# שלב אחזור קטעים רלוונטיים
-def retrieve(query, index, texts, metadata, model, top_k=3):
-    query_embedding = model.encode([query], convert_to_numpy=True)
-    distances, indices = index.search(query_embedding, top_k)
-
-    results = []
-    for i in indices[0]:
-        results.append({
-            "text": texts[i],
-            "meta": metadata[i]
-        })
-    return results
-
-# הרצת המערכת עם ג'נרציה
 def main():
-    index, texts, metadata, model = load_system()
+    # Load FAISS & Embedding
+    embedding = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+    vectorstore = FAISS.load_local(INDEX_DIR, embedding, allow_dangerous_deserialization=True)
 
-    # יצירת pipeline של שאלות-תשובות
-    qa_pipeline = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
+    # QA Pipeline (מודל מבית HuggingFace)
+    qa_pipe = pipeline("question-answering", model="distilbert-base-uncased-distilled-squad")
+    llm = HuggingFacePipeline(pipeline=qa_pipe)
+
+    # Build RAG chain
+    chain = RetrievalQA.from_chain_type(llm=llm, retriever=vectorstore.as_retriever(), return_source_documents=True)
 
     while True:
-        query = input("\n🔍 Ask something (or type 'exit'): ")
+        query = input("\n ask question (or exit): ")
         if query.lower() == "exit":
             break
 
-        # שלב אחזור
-        results = retrieve(query, index, texts, metadata, model)
+        # שלב של חיפוש באמצעות ה-retriever לקבלת מסמכים רלוונטיים
+        docs = vectorstore.similarity_search(query, k=3)
 
-        print("\n📚 Top relevant chunks:")
-        for r in results:
-            print(f"- [{r['meta']['document']}] {r['text'][:200]}...\n")
+        # יצירת קונטקסט משילוב המסמכים שנמצאו
+        combined_context = " ".join([doc.page_content for doc in docs])
 
-        # שלב ג'נרציה
-        #combined_context = " ".join([r["text"] for r in results])
-        combined_context = results[0]["text"]
+        # שליחת הקונטקסט לשלב ה-question answering
+        result = qa_pipe(question=query, context=combined_context)
 
-        try:
-            answer = qa_pipeline(question=query, context=combined_context)
-            print("\n💬 Answer:", answer["answer"])
-        except Exception as e:
-            print("\n⚠️ Error generating answer:", str(e))
+        print("\n question:", result["answer"])
+        print("answer :", docs[0].metadata)
+
 
 if __name__ == "__main__":
     main()
