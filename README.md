@@ -68,6 +68,7 @@ pip install sentence-transformers
 pip install faiss-cpu
 pip install transformers
 pip install langchain_huggingface
+pip freeze > requirements.txt
 ```
 
 ---
